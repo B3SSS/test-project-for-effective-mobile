@@ -1,0 +1,23 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: test-backend
+    networks:
+      - test-net
+
+  nginx:
+    image: nginx:latest
+    container_name: test-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - test-net
+    depends_on:
+      - backend
+
+networks:
+  test-net:
+    driver: bridge
